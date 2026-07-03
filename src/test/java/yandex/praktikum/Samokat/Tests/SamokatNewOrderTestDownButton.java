@@ -1,4 +1,4 @@
-package yandex.praktikum.Samokat.Tests.Chrome;
+package yandex.praktikum.Samokat.Tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,11 +8,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import yandex.praktikum.Samokat.PageObject.HomePage;
 import yandex.praktikum.Samokat.PageObject.RenterPage;
 import yandex.praktikum.Samokat.PageObject.ScooterPage;
 
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SamokatNewOrderTestDownButton {
     private WebDriver driver;
@@ -22,7 +26,7 @@ public class SamokatNewOrderTestDownButton {
 
     @BeforeEach
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions(); //При необходимости заменить на Firefox
         options.addArguments(
                 "--no-sandbox",
                 "--headless",
@@ -32,11 +36,12 @@ public class SamokatNewOrderTestDownButton {
         homePage = new HomePage(driver);
         renterPage = new RenterPage(driver);
         scooterPage = new ScooterPage(driver);
-        driver.get("https://qa-scooter.education-services.ru/");
+        String siteUrl = homePage.getSite(); // Получаем адрес сайта из HomePage
+        driver.get(siteUrl); // Открываем страницу с помощью WebDriver
     }
 
     @ParameterizedTest
-    @MethodSource("newOrder")
+    @MethodSource("yandex.praktikum.Samokat.Tests.TestData#newOrder")
     public void testNewOrder(
             String userName,
             String userSurname,
@@ -64,18 +69,11 @@ public class SamokatNewOrderTestDownButton {
                 .inputColour(colour)
                 .inputComment(newComment)
                 .clickOrderButton()
-                .clickYesButton()
-                .clickStatusButton();
+                .clickYesButton();
+        String actualText = scooterPage.successNotificationText(); // Получаем текст ответа
+        assertTrue(actualText.startsWith("Заказ оформлен"), "Текст уведомления не соответствует ожидаемому"); // Сверяем ожидаемый и полученный текст
+        System.out.println("Заказ оформлен успешно"); // Выводим полученный текст ответа. Пусть пока будет
     }
-
-        static Stream<Arguments> newOrder() {
-            return Stream.of(
-                    Arguments.of("Аполлинарий", "Дырка", "ул.Кирпичные Выемки, д.14", 1, "81234567890", "31.12.2026", "black", "С перламутровыми пуговицами"),
-                    Arguments.of("Иннокентий", "Забейворота", "Бабьегородский переулок, д.41", 2, "81234567890", "31.12.2026", "grey", "+5 к скорости"),
-                    Arguments.of("Роман", "Бутылка", "ул.Трудовой Пчелы, д.41", 3, "81234567890", "31.12.2026", "both", "Не могу определиться с цветом"),
-                    Arguments.of("Владилена", "Козюлькина", "Улица Жужа, д.22", 4, "81234567890", "31.12.2026", "none", "Лень писать комментарий")
-            );
-        }
 
     @AfterEach
     void tearDown() {

@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class HomePage {
+     // Адрес сайта
+        private final String site = "https://qa-scooter.praktikum-services.ru/";
      // Яндекс логотип
         public static final By yandexLogo = By.className("Header_LogoYandex__3TSOI");
      // Заказать кнопка (верхн.)
@@ -23,8 +25,14 @@ public HomePage(WebDriver driver) {
     this.driver = driver;
 }
 
+// АДРЕС САЙТА:
+    // Получаем адрес сайта:
+    public String getSite() {
+        return site;
+    }
 
-// ОЖИДАНИЕ:
+
+    // ОЖИДАНИЕ:
     // Ожидаем загрузки главной страницы
     public HomePage loadHomePage() {
         new WebDriverWait(driver, Duration.ofSeconds(10))

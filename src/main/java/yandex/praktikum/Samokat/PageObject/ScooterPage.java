@@ -3,6 +3,7 @@ package yandex.praktikum.Samokat.PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,9 +28,8 @@ public class ScooterPage {
     public static final By buttonYes = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
     // Нет кнопка
     public static final By buttonNo = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM Button_Inverted__3IF-i' and text()='Нет']");
-    // Посмотреть статус кнопка
-    public static final By buttonStatus = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Посмотреть статус']");
-
+    // Заказ оформлен уведомление
+    public static final By successNotification = By.className("Order_ModalHeader__3FDaJ");
 
     WebDriver driver;
     public ScooterPage(WebDriver driver) {
@@ -112,11 +112,12 @@ public class ScooterPage {
         return this;
     }
 
-    // Нажимаем кнопку Посмотреть статус
-    public ScooterPage clickStatusButton() {
+// ПОЛУЧЕНИЕ ТЕКСТА:
+    // Получаем текст уведомления об успешном оформлении заказа
+    public String successNotificationText() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(buttonStatus));
-        driver.findElement(buttonStatus).click();
-        return this;
+        WebElement textElement = wait.until(ExpectedConditions.visibilityOfElementLocated(successNotification));
+        return textElement.getText();
     }
+
 }

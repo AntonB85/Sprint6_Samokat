@@ -1,4 +1,4 @@
-package yandex.praktikum.Samokat.Tests.Chrome;
+package yandex.praktikum.Samokat.Tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ public class SamokatAccordionTest {
 
     @BeforeEach
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions(); //При необходимости заменить на Firefox
         options.addArguments(
                 "--no-sandbox",
                 "--headless",
@@ -28,7 +28,8 @@ public class SamokatAccordionTest {
         );
         driver = new ChromeDriver(options);
         homePage = new HomePage(driver); // Инициализируем Page Object
-        driver.get("https://qa-scooter.education-services.ru/");
+        String siteUrl = homePage.getSite(); // Получаем адрес сайта из HomePage
+        driver.get(siteUrl); // Открываем страницу с помощью WebDriver
     }
 
     @ParameterizedTest
@@ -37,8 +38,8 @@ public class SamokatAccordionTest {
         homePage.loadHomePage().scrollToQuestions(headingId); // Ждем загрузки страницы и крутим к вопросам
         homePage.waitLoadQuestion().clickAccordionHeading(headingId); // Ждем загрузки вопросов и кликаем
         String actualText = homePage.getAccordionText(textSelector); // Получаем текст ответа
-        System.out.println("Текст вкладки " + accordionIndex + ": " + actualText); // Выводим полученный текст ответа. Пусть пока будет
         assertEquals(expectedText, actualText, "Текст ответа не соответствует ожидаемому"); // Сверяем ожидаемый и полученный текст
+        System.out.println("Текст вкладки соответствует ожидаемому"); // Пусть пока будет
     }
 
     static Stream<Arguments> AccordionMenu() {

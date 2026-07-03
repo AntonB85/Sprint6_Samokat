@@ -8,7 +8,7 @@
     <artifactId>Samokat</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
+<dependencies>
     <!-- JUnit 5 -->
     <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -33,7 +33,7 @@
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>4.10.0</version>
+        <version>4.27.0</version>
         <scope>test</scope>
     </dependency>
 
@@ -42,20 +42,19 @@
         <artifactId>logback-classic</artifactId>
         <version>1.4.11</version>
     </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-api</artifactId>
-            <version>4.15.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
-            <version>4.15.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-    </dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-api</artifactId>
+        <version>4.27.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-support</artifactId>
+        <version>4.27.0</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
